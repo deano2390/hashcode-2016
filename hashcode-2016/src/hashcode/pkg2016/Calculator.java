@@ -67,16 +67,22 @@ public class Calculator {
         }
         
         // load from warehouse
-        commands.add(drone.id + " L " + warehouse.id + " " + item.product.type + " 1");
+        String load = (drone.id + " L " + warehouse.id + " " + item.product.type + " 1");
         drone.nextFreeTime += 1 + distance(drone.X, drone.Y, warehouse.X, warehouse.Y);
         drone.X = warehouse.X;
         drone.Y = warehouse.Y;
         
         // deliver
-        commands.add(drone.id + " D " + order.id + " " + item.product.type + " 1");
+        String deliver = (drone.id + " D " + order.id + " " + item.product.type + " 1");
         drone.nextFreeTime += 1 + distance(drone.X, drone.Y, order.X, order.Y);
         drone.X = order.X;
         drone.Y = order.Y;
+        
+        if (drone.nextFreeTime < grid.turns) {
+            commands.add(load);
+            commands.add(deliver);
+        }
+        
     }
     
     private Warehouse warehouseForItem(Drone drone, Product product) {
