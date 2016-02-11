@@ -5,10 +5,49 @@
  */
 package hashcode.pkg2016;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author deanwild
  */
 public class InputParser {
+
+    public void parse(){
+    
+        try {
+    FileInputStream fstream;
+
+        fstream = new FileInputStream("example.in");
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+
+        String strLine;
+
+        while ((strLine = br.readLine()) != null) {
+
+            System.out.println(strLine);
+        }
+
+        br.close();
+
+    }
+    catch (FileNotFoundException ex
+
+    
+        ) {
+            Logger.getLogger(InputParser.class.getName()).log(Level.SEVERE, null, ex);
+    }   catch (IOException ex) {
+            Logger.getLogger(InputParser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    
+    }
     
 }
