@@ -90,7 +90,7 @@ public class Calculator {
         int distance = Integer.MAX_VALUE;
         for (int i=0; i < grid.warehouses.size(); i++) {
             Warehouse warehouse = grid.warehouses.get(i);
-            if (warehouse.products.containsKey(product)) {
+            if (warehouse.products.get(product) > 0) {
                 int d = distance(drone.X, drone.Y, warehouse.X, warehouse.Y);
                 if (d < distance) {
                     distance = d;
@@ -98,6 +98,8 @@ public class Calculator {
                 }
             }
         }
+        Warehouse warehouse = grid.warehouses.get(index);
+        warehouse.products.put(product, warehouse.products.get(product) - 1);
         return index < 0 ? null : grid.warehouses.get(index);
     }
     
