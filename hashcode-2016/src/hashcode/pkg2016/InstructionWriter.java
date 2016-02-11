@@ -8,7 +8,6 @@ package hashcode.pkg2016;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,13 +17,13 @@ import java.util.logging.Logger;
  */
 public class InstructionWriter {
 
-    public static void writeInstructions(ArrayList<String> instructions, String outputPath) {
+    public static void writeInstructions(String[] commands, String outputPath) {
 
         try (PrintStream out = new PrintStream(new FileOutputStream(outputPath))) {
             
-            out.println(instructions.size());
+            out.println(commands.length);
             
-            for (String instruction : instructions) {
+            for (String instruction : commands) {
                 out.println(instruction);
             }           
             

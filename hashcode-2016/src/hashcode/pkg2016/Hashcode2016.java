@@ -24,10 +24,12 @@ public class Hashcode2016 {
         Calculator calculator = new Calculator(grid);
         String[] output = calculator.calculate();
         
-        System.out.println(output.length);
-        for (String out : output) {
-            System.out.println(out);
-        }
+//        System.out.println(output.length);
+//        for (String out : output) {
+//            System.out.println(out);
+//        }
+        
+        InstructionWriter.writeInstructions(output, args[1]);
     }
     
 }
