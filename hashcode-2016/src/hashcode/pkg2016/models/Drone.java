@@ -14,6 +14,7 @@ public class Drone {
     public int id;
     public int X;
     public int Y;
+    public int nextFreeTime;
 
     public Drone(int id) {
     this.id = id;
