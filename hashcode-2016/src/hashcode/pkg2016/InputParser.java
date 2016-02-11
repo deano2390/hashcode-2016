@@ -83,10 +83,11 @@ public class InputParser {
             strLine = br.readLine();    // warehouse count
             int warehouseCount = asInt(strLine);
             
-            for (int i = 0; i < warehouseCount; i++) {
+            for (int warehouseID = 0; warehouseID < warehouseCount; warehouseID++) {
                 strLine = br.readLine();    // warehouse location
                 strValues = strLine.split(" ");
                 Warehouse warehouse = new Warehouse();
+                warehouse.id = warehouseID;
                 warehouse.X = asInt(strValues[0]);
                 warehouse.Y = asInt(strValues[1]);
                 

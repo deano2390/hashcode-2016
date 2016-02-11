@@ -12,6 +12,7 @@ import java.util.HashMap;
  * @author deanwild
  */
 public class Warehouse {
+    public int id;
     public int X;
     public int Y;
     
