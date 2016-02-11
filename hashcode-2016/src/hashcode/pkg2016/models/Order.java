@@ -12,6 +12,7 @@ import java.util.ArrayList;
  * @author deanwild
  */
 public class Order {
+    public int id;
     public int X;
     public int Y;
     

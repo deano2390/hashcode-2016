@@ -106,7 +106,7 @@ public class InputParser {
             int orderCount = asInt(strLine);
             
             
-            for (int i = 0; i < orderCount; i++) {
+            for (int orderID = 0; orderID < orderCount; orderID++) {
                 strLine = br.readLine();    // order destination
                 strValues = strLine.split(" ");
                 Order order = new Order();
