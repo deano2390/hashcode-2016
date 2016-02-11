@@ -110,6 +110,7 @@ public class InputParser {
                 strLine = br.readLine();    // order destination
                 strValues = strLine.split(" ");
                 Order order = new Order();
+                order.id = orderID;
                 order.X = asInt(strValues[0]);
                 order.Y = asInt(strValues[1]);
                 
