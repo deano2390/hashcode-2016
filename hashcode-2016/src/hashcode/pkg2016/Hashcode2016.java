@@ -21,8 +21,13 @@ public class Hashcode2016 {
         
         InputParser parser = new InputParser(new File(args[0]));
         Grid grid = parser.parse();
+        Calculator calculator = new Calculator(grid);
+        String[] output = calculator.calculate();
         
-        
+        System.out.println(output.length);
+        for (String out : output) {
+            System.out.println(out);
+        }
     }
     
 }
