@@ -18,6 +18,7 @@ public class Grid {
     public ArrayList<Drone> drones;
     public ArrayList<Warehouse> warehouses;
     public ArrayList<Order> orders;
+    public ArrayList<Product> products;
     
     
 }

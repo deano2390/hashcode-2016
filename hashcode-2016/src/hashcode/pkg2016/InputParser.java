@@ -6,12 +6,14 @@
 package hashcode.pkg2016;
 
 import hashcode.pkg2016.models.Grid;
+import hashcode.pkg2016.models.Product;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,7 +31,7 @@ public class InputParser {
     public Grid parse() {
 
         
-        Grid output = new  Grid();
+        Grid grid = new  Grid();
         
         try {
             FileInputStream fstream;
@@ -38,12 +40,37 @@ public class InputParser {
 
             BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
 
-            String strLine;
-
-            while ((strLine = br.readLine()) != null) {
-
-                System.out.println(strLine);
+            String strLine = br.readLine(); // grid size
+            
+            String[] strValues = strLine.split(" ");
+            
+            grid.rows = Integer.parseInt(strValues[0]);
+            grid.columns = Integer.parseInt(strValues[1]);            
+            int droneCount = Integer.parseInt(strValues[3]);
+            int turns = Integer.parseInt(strValues[4]);
+            int maxPayload = Integer.parseInt(strValues[5]);
+                       
+            strLine = br.readLine();            //skip a line
+            strLine = br.readLine();    // product weights        
+            strValues = strLine.split(" ");
+            
+            int productTypeCount = strValues.length;
+            
+            grid.products = new ArrayList<>();
+            
+            for (int i = 0; i < productTypeCount; i++) {
+                Product product = new Product();
+                product.type = i;
+                product.weight = asInt(strValues[i]);
+                grid.products.add(product);
             }
+            
+            
+            
+            
+            
+            
+            
 
             br.close();
 
@@ -53,7 +80,11 @@ public class InputParser {
             Logger.getLogger(InputParser.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return output;
+        return grid;
+    }
+    
+    int asInt(String in){
+        return Integer.parseInt(in);
     }
 
 }
