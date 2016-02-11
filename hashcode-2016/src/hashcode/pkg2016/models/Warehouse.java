@@ -15,5 +15,5 @@ public class Warehouse {
     public int X;
     public int Y;
     
-    public HashMap<Product, Integer> products; 
+    public HashMap<Product, Integer> products= new HashMap<>(); 
 }

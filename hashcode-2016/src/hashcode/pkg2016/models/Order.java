@@ -15,5 +15,5 @@ public class Order {
     public int X;
     public int Y;
     
-    ArrayList<OrderItem> items;
+    public ArrayList<OrderItem> items = new ArrayList<>();
 }
