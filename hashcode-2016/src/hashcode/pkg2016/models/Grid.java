@@ -11,9 +11,13 @@ import java.util.ArrayList;
  *
  * @author deanwild
  */
-public class Order {
-    public int X;
-    public int Y;
+public class Grid {
     
-    ArrayList<OrderItem> items;
+    public int rows;
+    public int columns;
+    public ArrayList<Drone> drones;
+    public ArrayList<Warehouse> warehouses;
+    public ArrayList<Order> orders;
+    
+    
 }

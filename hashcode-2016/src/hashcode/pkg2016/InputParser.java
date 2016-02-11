@@ -5,6 +5,7 @@
  */
 package hashcode.pkg2016;
 
+import hashcode.pkg2016.models.Grid;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,35 +20,34 @@ import java.util.logging.Logger;
  */
 public class InputParser {
 
-    public void parse(){
-    
+    public Grid parse() {
+
+        
+        Grid output = new  Grid();
+        
         try {
-    FileInputStream fstream;
+            FileInputStream fstream;
 
-        fstream = new FileInputStream("example.in");
+            fstream = new FileInputStream("example.in");
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
+            BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
 
-        String strLine;
+            String strLine;
 
-        while ((strLine = br.readLine()) != null) {
+            while ((strLine = br.readLine()) != null) {
 
-            System.out.println(strLine);
-        }
+                System.out.println(strLine);
+            }
 
-        br.close();
+            br.close();
 
-    }
-    catch (FileNotFoundException ex
-
-    
-        ) {
+        } catch (FileNotFoundException ex) {
             Logger.getLogger(InputParser.class.getName()).log(Level.SEVERE, null, ex);
-    }   catch (IOException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(InputParser.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-    
+        return output;
     }
-    
+
 }

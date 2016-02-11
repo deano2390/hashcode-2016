@@ -5,10 +5,15 @@
  */
 package hashcode.pkg2016.models;
 
+import java.util.HashMap;
+
 /**
  *
  * @author deanwild
  */
 public class Warehouse {
+    public int X;
+    public int Y;
     
+    public HashMap<Product, Integer> products; 
 }

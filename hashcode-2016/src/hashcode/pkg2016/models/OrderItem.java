@@ -10,5 +10,6 @@ package hashcode.pkg2016.models;
  * @author deanwild
  */
 public class OrderItem {
-    
+    public Product product;
+    public int quantity;
 }
