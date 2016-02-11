@@ -7,6 +7,7 @@ package hashcode.pkg2016;
 
 import hashcode.pkg2016.models.Grid;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,7 +20,12 @@ import java.util.logging.Logger;
  * @author deanwild
  */
 public class InputParser {
+    private final File file;
 
+    public InputParser(File file){
+        this.file = file;
+    }
+    
     public Grid parse() {
 
         
@@ -28,7 +34,7 @@ public class InputParser {
         try {
             FileInputStream fstream;
 
-            fstream = new FileInputStream("example.in");
+            fstream = new FileInputStream(file);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
 

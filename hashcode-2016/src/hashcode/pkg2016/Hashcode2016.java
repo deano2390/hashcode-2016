@@ -5,6 +5,9 @@
  */
 package hashcode.pkg2016;
 
+import hashcode.pkg2016.models.Grid;
+import java.io.File;
+
 /**
  *
  * @author deanwild
@@ -16,6 +19,8 @@ public class Hashcode2016 {
      */
     public static void main(String[] args) {
         
+        InputParser parser = new InputParser(new File(args[0]));
+        Grid grid = parser.parse();
         
         
     }
