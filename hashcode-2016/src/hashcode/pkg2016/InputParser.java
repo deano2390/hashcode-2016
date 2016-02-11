@@ -54,7 +54,7 @@ public class InputParser {
             int droneCount = Integer.parseInt(strValues[2]);
             
             for (int i = 0; i < droneCount; i++) {
-                grid.drones.add(new Drone());
+                grid.drones.add(new Drone(i));
             }
             
             
