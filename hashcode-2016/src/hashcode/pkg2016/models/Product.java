@@ -10,6 +10,6 @@ package hashcode.pkg2016.models;
  * @author deanwild
  */
 public class Product {
-    public int type;
+    public int id;
     public int weight;
 }

@@ -15,8 +15,10 @@ public class Drone {
     public int X;
     public int Y;
     public int nextFreeTime;
-
-    public Drone(int id) {
-    this.id = id;
+    
+    public Drone(int id, int startX, int startY) {
+            this.id = id;
+            this.X = startX;
+            this.Y = startY;
     }
 }

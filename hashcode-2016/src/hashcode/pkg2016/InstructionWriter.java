@@ -5,6 +5,7 @@
  */
 package hashcode.pkg2016;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -17,9 +18,17 @@ import java.util.logging.Logger;
  */
 public class InstructionWriter {
 
-    public static void writeInstructions(String[] commands, String outputPath) {
+    public static void writeInstructions(String[] commands, String fileName) {
 
-        try (PrintStream out = new PrintStream(new FileOutputStream(outputPath))) {
+        
+        String outputPath  = System.getProperty("user.home") + "/hashcode";
+        
+        File folder = new File(outputPath);
+        folder.mkdirs();
+        
+        File file = new File(outputPath + "/" + fileName +  ".out");
+        
+        try (PrintStream out = new PrintStream(new FileOutputStream(file))) {
             
             out.println(commands.length);
             

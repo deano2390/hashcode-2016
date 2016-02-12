@@ -28,8 +28,7 @@ public class Hashcode2016 {
 
         for (String attempt : attempts) {
             
-            String inFile = "assets/" + attempt + ".in";
-            String outFile  = System.getProperty("user.home") + "/hashcode/" + attempt + ".out";
+            String inFile = "assets/" + attempt + ".in";            
             InputParser parser = new InputParser(new File(inFile));
             Grid grid = parser.parse();
             Calculator calculator = new Calculator(grid);
@@ -39,7 +38,7 @@ public class Hashcode2016 {
 //        for (String out : output) {
 //            System.out.println(out);
 //        }
-            InstructionWriter.writeInstructions(output, outFile);
+            InstructionWriter.writeInstructions(output, attempt);
         }
 
     }

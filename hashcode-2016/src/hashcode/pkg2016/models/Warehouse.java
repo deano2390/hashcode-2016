@@ -5,16 +5,44 @@
  */
 package hashcode.pkg2016.models;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
  * @author deanwild
  */
-public class Warehouse {
+public class Warehouse extends ArrayList<OrderItem>{
     public int id;
     public int X;
-    public int Y;
+    public int Y;        
+
+
+public boolean hasProduct(Product product){
+
+    for (OrderItem item : this) {        
+        if(item.product == product){
+            return true;
+        }
+        
+    }
     
-    public HashMap<Product, Integer> products= new HashMap<>(); 
+    return false;
+}
+
+    public void removeItem(Product product) {
+        
+        Iterator<OrderItem> iterator = iterator();
+        
+        while(iterator.hasNext()){
+            
+            OrderItem item = iterator.next();
+            
+            if(item.product == product){
+                iterator.remove();
+                return;
+            }
+        }
+    }
+
 }
