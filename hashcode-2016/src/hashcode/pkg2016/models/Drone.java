@@ -24,31 +24,7 @@ public class Drone extends ArrayList<OrderItem> {
         this.X = startX;
         this.Y = startY;
     }
-
-    /*public String load(int warehouseID, OrderItem orderItem) {
-        return this.load(warehouseID, orderItem, orderItem.quantity);
-    }
-
-    public String load(int warehouseID, OrderItem orderItem, int quantity) {
-
-        int weight = orderItem.product.weight * quantity;
-        modifyWeight(weight);
-
-        return id + " L " + warehouseID + " " + orderItem.product.id + " " + quantity;
-    }
-
-    public String deliver(int orderID, OrderItem orderItem) {
-        return this.deliver(orderID, orderItem, orderItem.quantity);
-    }
-
-    public String deliver(int orderID, OrderItem orderItem, int quantity) {
-
-        int weight = orderItem.product.weight * quantity;
-        modifyWeight(-weight);
-
-        return id + " D " + orderID + " " + orderItem.product.id + " " + quantity;
-    }*/
-
+    
     public int getSpareCapacity() {
         return Grid.MAX_PAYLOAD - currentPayloadWeight;
     }
