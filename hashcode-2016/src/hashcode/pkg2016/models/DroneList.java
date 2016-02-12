@@ -48,15 +48,14 @@ public class DroneList extends ArrayList<Drone> {
 
             if (totalTurnCost < bestTurnCost) {
 
-                if (order.remainingWeight <= Grid.MAX_PAYLOAD) {
+             //   if (order.remainingWeight <= Grid.MAX_PAYLOAD) {
                     // just check that this move won't tip the drone over the edge
-                    if (totalTurnCost + drone.nextFreeTime <= Grid.MAX_TIME) {
+                    if (totalTurnCost <= Grid.MAX_TIME) {
                         bestTurnCost = totalTurnCost;
                         bestDrone = drone;
                     }
-                }
-            }
-
+             //   }
+            }          
         }
 
         return bestDrone;

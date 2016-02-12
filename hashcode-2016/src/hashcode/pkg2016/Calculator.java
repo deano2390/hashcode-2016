@@ -9,6 +9,7 @@ import hashcode.pkg2016.models.OrderItem;
 import hashcode.pkg2016.models.Warehouse;
 import hashcode.pkg2016.models.WarehouseList;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,7 +38,8 @@ public class Calculator {
         int counter = 0;
 
         while (!grid.orders.isEmpty()) {
-
+            
+                        
             ArrayList<String> newCommands = null;
 
             Order bestOrder = grid.orders.findBest();
@@ -49,31 +51,17 @@ public class Calculator {
                     Drone bestDrone = drones.findBest(bestOrder, bestWareHouse);
 
                     if (bestDrone != null) {
-
-                        if (bestDrone.nextFreeTime > grid.MAX_TIME) {
-                            continue;
-                        }
-
                         newCommands = fulfillOrder(bestOrder, bestWareHouse, bestDrone);
-
                     }
                 }
-
-                Drone bestDrone = drones.findbestDrone();
-
-                if (newCommands == null) {
-                    newCommands = tryWorkWholeOrder(bestDrone);
-                }
-
-                if (newCommands == null) {
-                    newCommands = workSingleOrderItem(bestDrone);
-                }
-
+               
                 commandList.addCommands(newCommands);
 
             } else {
-                break; // ?
+                break;
             }
+            
+            log("orders: " + grid.orders.size());
 
             counter++;
         }
@@ -87,45 +75,60 @@ public class Calculator {
 
     private ArrayList<String> fulfillOrder(Order order, Warehouse warehouse, Drone drone) {
 
-        // load from warehouse
-        ArrayList<String> commands = new ArrayList<String>();
-
         int turnCost = 0;
-
         turnCost += DistanceCalculator.distance(drone.X, drone.Y, warehouse.X, warehouse.Y);
-
-        for (OrderItem orderItem : order.items) {
-            turnCost++;
-            String loadCommand = drone.load(warehouse.id, orderItem);
-            commands.add(loadCommand);
-        }
-
-        // deliver                        
         turnCost += DistanceCalculator.distance(warehouse.X, warehouse.Y, order.X, order.Y);
 
-        for (OrderItem orderItem : order.items) {
-            turnCost++;
-            String deliverCmd = drone.deliver(order.id, orderItem);
-            commands.add(deliverCmd);
+        
+        drone.nextFreeTime += turnCost;
+
+        ArrayList<String> commands = new ArrayList<String>();
+
+        Iterator<OrderItem> itemsIterator = order.items.iterator();
+
+        while (itemsIterator.hasNext()) {
+
+            OrderItem item = itemsIterator.next();
+
+            // keep filling until the drone is full or we run out of items
+            while (item.quantity > 0) {
+                
+                if(!warehouse.hasProduct(item.product)){
+                    break;
+                }
+                
+                boolean didLoad = drone.tryLoadItem(item.product);
+                if (didLoad) {
+
+                    warehouse.decrementProductStock(item.product);
+                    
+                    item.quantity--;
+                    order.remainingWeight -= item.product.weight;
+                    
+                    if (item.quantity <= 0) {
+                        itemsIterator.remove();                       
+
+                        if (order.items.isEmpty()) {
+                            grid.orders.remove(order);
+                            break;
+                        }
+                    }
+
+                } else {
+                    break;
+                }
+            }
         }
 
-        // check if this drone can actually execute the delivery
-        if (drone.nextFreeTime + turnCost < grid.MAX_TIME) {
-
-            /**
-             * if it can then - update stock - remove the order - move the drone
-             * - update i drone turn
-             */
-            warehouse.fulfillOrder(order);
-            grid.orders.remove(order);
-            drone.X = order.X;
-            drone.Y = order.Y;
-            drone.nextFreeTime += turnCost;
+        commands = drone.executeCommands(warehouse, order);
+       
+        if (drone.nextFreeTime < grid.MAX_TIME) {
+            
             return commands;
+        } else {
+            log("bail out");
+            throw new RuntimeException("trying to send drone with too many commands");
         }
-
-        return null;
-
     }
 
     private ArrayList<String> tryWorkWholeOrder(Drone drone) {
@@ -158,9 +161,9 @@ public class Calculator {
 
         for (OrderItem orderItem : order.items) {
             turnCost++;
-            //String loadCommand = (drone.id + " L " + warehouse.id + " " + orderItem.product.id + " " + orderItem.quantity);
-            String loadCommand = drone.load(warehouse.id, orderItem);
-            commands.add(loadCommand);
+           
+           // String loadCommand = drone.load(warehouse.id, orderItem);
+           // commands.add(loadCommand);
         }
 
         // deliver                        
@@ -168,9 +171,9 @@ public class Calculator {
 
         for (OrderItem orderItem : order.items) {
             turnCost++;
-            //String deliverCmd = (drone.id + " D " + order.id + " " + orderItem.product.id + " " + orderItem.quantity);
-            String deliverCmd = drone.deliver(order.id, orderItem);
-            commands.add(deliverCmd);
+           
+           // String deliverCmd = drone.deliver(order.id, orderItem);
+           // commands.add(deliverCmd);
         }
 
         // check if this drone can actually execute the delivery
@@ -203,13 +206,13 @@ public class Calculator {
         int turnCost = 0;
 
         // load from warehouse        
-        String loadCmd = drone.load(warehouse.id, orderItem, 1);
-        commands.add(loadCmd);
+        //String loadCmd = drone.load(warehouse.id, orderItem, 1);
+        //commands.add(loadCmd);
         turnCost += 1 + DistanceCalculator.distance(drone.X, drone.Y, warehouse.X, warehouse.Y);
 
         // deliver        
-        String deliverCmd = drone.deliver(order.id, orderItem, 1);
-        commands.add(deliverCmd);
+        //String deliverCmd = drone.deliver(order.id, orderItem, 1);
+        //commands.add(deliverCmd);
         turnCost += 1 + DistanceCalculator.distance(warehouse.X, warehouse.Y, order.X, order.Y);
 
         if (drone.nextFreeTime + turnCost < grid.MAX_TIME) {

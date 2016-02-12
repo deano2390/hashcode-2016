@@ -13,15 +13,14 @@ import java.util.ArrayList;
  * @author deanwild
  */
 public class WarehouseList extends ArrayList<Warehouse> {
-    
-    
-     public Warehouse findBestWareHouse(Order order) {
+
+    public Warehouse findBestWareHouse(Order order) {
 
         Warehouse bestWarehouse = null;
         int bestDistance = Integer.MAX_VALUE;
         for (int warehouseID = 0; warehouseID < size(); warehouseID++) {
-            Warehouse warehouse = get(warehouseID);           
-                       
+            Warehouse warehouse = get(warehouseID);
+
             if (warehouse.hasProducts(order)) {
                 int d = DistanceCalculator.distance(order.X, order.Y, warehouse.X, warehouse.Y);
                 if (d < bestDistance) {
@@ -31,19 +30,36 @@ public class WarehouseList extends ArrayList<Warehouse> {
             }
         }
 
+        
+        // if no warehouse had everything in stock then find the one with the most
+        if (bestWarehouse == null) {
+
+            int bestStock = 0;
+
+            for (int warehouseID = 0; warehouseID < size(); warehouseID++) {
+
+                Warehouse warehouse = get(warehouseID);
+
+                int stock = warehouse.amountOfOrderStocked(order);
+
+                if (stock > bestStock) {
+                    bestStock = stock;
+                    bestWarehouse = warehouse;
+                }
+            }
+        }
+        
         return bestWarehouse;
 
     }
-    
-    
+
     public Warehouse findBestWareHouse(Drone drone, Order order) {
 
         Warehouse bestWarehouse = null;
         int bestDistance = Integer.MAX_VALUE;
         for (int warehouseID = 0; warehouseID < size(); warehouseID++) {
             Warehouse warehouse = get(warehouseID);
-           
-                       
+
             if (warehouse.hasProducts(order)) {
                 int d = DistanceCalculator.distance(drone.X, drone.Y, warehouse.X, warehouse.Y);
                 if (d < bestDistance) {
@@ -53,11 +69,13 @@ public class WarehouseList extends ArrayList<Warehouse> {
             }
         }
 
+        
+
         return bestWarehouse;
 
     }
-    
-     public Warehouse findBestWareHouse(Drone drone, Product product) {
+
+    public Warehouse findBestWareHouse(Drone drone, Product product) {
         Warehouse bestWarehouse = null;
         int bestDistance = Integer.MAX_VALUE;
         for (int warehouseID = 0; warehouseID < size(); warehouseID++) {
@@ -73,5 +91,5 @@ public class WarehouseList extends ArrayList<Warehouse> {
 
         return bestWarehouse;
     }
-    
+
 }

@@ -18,15 +18,15 @@ public class OrderList extends ArrayList<Order>{
         
     public Order findBest(){
         
-        //return get(0);
+        return get(0);
         
-        for (Order thisOrder : this) {
+       /* for (Order thisOrder : this) {
             if (thisOrder.remainingWeight <= Grid.MAX_PAYLOAD) {
                 return thisOrder;             
             }
-        }
+        }*/
         
-        return null;
+        //return null;
     }
  
     

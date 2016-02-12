@@ -43,11 +43,42 @@ public class Warehouse extends ArrayList<OrderItem> {
 
             if (item.product == product) {
                 item.quantity--;
+                
+                if(item.quantity < 0){
+                    throw new RuntimeException("trying to use goods that are not stocked");
+                }
                 return;
             }
         }
     }
 
+    public int amountOfOrderStocked(Order order){
+        
+        int itemsStocked = 0;
+        
+         Iterator<OrderItem> iterator = iterator();
+
+        for (OrderItem orderItem : order.items) {
+
+            boolean productIsInStock = false;
+
+            while (iterator.hasNext()) {
+                OrderItem stockItem = iterator.next();
+                if (stockItem.product == orderItem.product) {
+
+                    if(stockItem.quantity >= orderItem.quantity){
+                        itemsStocked += orderItem.quantity;
+                    }else{
+                        itemsStocked += stockItem.quantity;
+                    }                                
+                }
+            }         
+        }
+
+        return itemsStocked;       
+        
+    }
+    
     public boolean hasProducts(Order order) {
               
         Iterator<OrderItem> iterator = iterator();
