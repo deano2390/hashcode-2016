@@ -32,8 +32,8 @@ public class Calculator {
             @Override
             public int compare(Order t, Order t1) {
                 int len1 = t.size();
-                int len2 = t.size();
-                return len1 < len2 ? -1 : len1 == len2 ? 0 : 1;
+                int len2 = t1.size();
+                return len1 - len2;               
             }
         });
 
