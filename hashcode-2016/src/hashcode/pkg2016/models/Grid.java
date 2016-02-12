@@ -12,7 +12,7 @@ public class Grid {
     public int columns;
     public int maximumTime;
     public int maxPayload;
-    public int turns;
+    
     public ArrayList<Drone> drones = new ArrayList<>();
     public ArrayList<Warehouse> warehouses = new ArrayList<>();
     public ArrayList<Order> orders = new ArrayList<>();

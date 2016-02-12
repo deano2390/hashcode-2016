@@ -53,8 +53,8 @@ public class InputParser {
 
             int droneCount = Integer.parseInt(strValues[2]);
             
-            int turns = Integer.parseInt(strValues[3]);
-            grid.turns = turns;
+            int maximumTime = Integer.parseInt(strValues[3]);
+            grid.maximumTime = maximumTime;
 
             int maxPayload = Integer.parseInt(strValues[4]);
             grid.maxPayload = maxPayload;

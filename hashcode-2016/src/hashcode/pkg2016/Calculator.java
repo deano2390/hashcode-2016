@@ -47,28 +47,22 @@ public class Calculator {
             }
         });
 
-        for (int t = 0; t < grid.turns; t++) {
+        while (!grid.orders.isEmpty()) {
 
-            if (grid.orders.isEmpty()) {
-                break;
+            Drone drone = findbestDrone();
+
+            if (drone.nextFreeTime > grid.maximumTime) {
+                continue;
             }
 
-            for (Drone drone : grid.drones) {
+            ArrayList<String> newCommands = tryWorkWholeOrder(drone);
 
-                if (drone.nextFreeTime > t) {
-                    continue;
-                }
-
-                ArrayList<String> newCommands = null;// tryWorkWholeOrder(drone);
-
-                if (newCommands == null) {
-                    // try old method
-                    newCommands = workSingleOrderItem(drone);
-                }
-
-                commandList.addCommands(newCommands);
-
+            if (newCommands == null) {
+                // try old method
+                newCommands = workSingleOrderItem(drone);
             }
+
+            commandList.addCommands(newCommands);
 
         }
 
@@ -88,12 +82,12 @@ public class Calculator {
         // load from warehouse
         String load = (drone.id + " L " + warehouse.id + " " + item.product.id + " 1");
         turnCost += 1 + distance(drone.X, drone.Y, warehouse.X, warehouse.Y);
-      
+
         // deliver
         String deliver = (drone.id + " D " + order.id + " " + item.product.id + " 1");
         turnCost += 1 + distance(warehouse.X, warehouse.Y, order.X, order.Y);
 
-        if (drone.nextFreeTime + turnCost < grid.turns) {
+        if (drone.nextFreeTime + turnCost < grid.maximumTime) {
 
             // update warehouse stock level
             warehouse.decrementProductStock(item.product);
@@ -178,7 +172,7 @@ public class Calculator {
         }
 
         // check if this drone can actually execute the delivery
-        if (drone.nextFreeTime + turnCost < grid.turns) {
+        if (drone.nextFreeTime + turnCost < grid.maximumTime) {
 
             /**
              * if it can then - update stock - remove the order - move the drone
@@ -231,6 +225,23 @@ public class Calculator {
         int dY = Math.abs(y2 - y1);
         double hyp = Math.sqrt((dX * dX) + (dY * dY));
         return (int) Math.ceil(hyp);
+    }
+
+    private Drone findbestDrone() {
+
+        Collections.sort(grid.drones, new Comparator<Drone>() {
+
+            @Override
+            public int compare(Drone drone1, Drone drone2) {
+                int len1 = drone1.nextFreeTime;
+                int len2 = drone2.nextFreeTime;
+                int diff = len1 - len2;
+                return diff;
+            }
+        });
+
+        return grid.drones.get(0);
+
     }
 
 }
