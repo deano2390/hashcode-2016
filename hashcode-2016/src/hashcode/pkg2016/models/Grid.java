@@ -15,7 +15,7 @@ public class Grid {
     
     public DroneList drones = new DroneList();
     public WarehouseList warehouses = new WarehouseList();
-    public ArrayList<Order> orders = new ArrayList<>();
+    public OrderList orders = new OrderList();
     public ArrayList<Product> products = new ArrayList<>();
 
     

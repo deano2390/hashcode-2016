@@ -11,13 +11,15 @@ import java.util.ArrayList;
  *
  * @author deanwild
  */
-public class Order extends ArrayList<OrderItem> {
+public class Order {
 
     public int id;
     public int X;
     public int Y;
     public int remainingWeight;
 
+    public ArrayList<OrderItem> items = new ArrayList<>();
+    
     public Order(int id) {
         this.id = id;       
     }
@@ -25,7 +27,7 @@ public class Order extends ArrayList<OrderItem> {
             
     public void addItem(Product product) {
     
-        for (OrderItem orderItem : this) {
+        for (OrderItem orderItem : items) {
             if(orderItem.product == product){
                 orderItem.quantity++;
                 remainingWeight += orderItem.product.weight;
@@ -36,19 +38,18 @@ public class Order extends ArrayList<OrderItem> {
         // new item type, create it
         OrderItem orderItem = new OrderItem(product, 1);
         remainingWeight += orderItem.product.weight;
-        add(orderItem);        
+        items.add(orderItem);        
     }
     
     public void decrementItem(Product product){
         
         
-        for (OrderItem orderItem : this) {
+        for (OrderItem orderItem : items) {
             if(orderItem.product == product){
                 orderItem.quantity--;
-                remainingWeight -= orderItem.product.weight;
-                
+                remainingWeight -= orderItem.product.weight;                
                 if(orderItem.quantity <= 0){
-                    remove(orderItem);
+                    items.remove(orderItem);
                 }
                 
                 return;
@@ -58,7 +59,7 @@ public class Order extends ArrayList<OrderItem> {
     
     // the minimum number of turns needed to fulfill this order before even considering distance
     public int turnOverhead(){        
-        return this.size() * 2;        
+        return items.size() * 2;        
     }
     
     

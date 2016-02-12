@@ -6,12 +6,9 @@ import hashcode.pkg2016.models.DroneList;
 import hashcode.pkg2016.models.Grid;
 import hashcode.pkg2016.models.Order;
 import hashcode.pkg2016.models.OrderItem;
-import hashcode.pkg2016.models.Product;
 import hashcode.pkg2016.models.Warehouse;
 import hashcode.pkg2016.models.WarehouseList;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,24 +32,7 @@ public class Calculator {
     public String[] calculate() {
         CommandList commandList = new CommandList();
 
-        Collections.sort(grid.orders, new Comparator<Order>() {
-
-            @Override
-            public int compare(Order t, Order t1) {
-                int len1 = t.size();
-                int len2 = t1.size();
-                int diff = len1 - len2;
-
-                // if they have the same number of items then sort by weight
-                if (diff == 0) {
-                    int weight1 = t.remainingWeight;
-                    int weight2 = t1.remainingWeight;
-                    diff = weight1 - weight2;
-                }
-
-                return diff;
-            }
-        });
+        grid.orders.initialSort();
 
         int counter = 0;
 
@@ -60,10 +40,7 @@ public class Calculator {
 
             ArrayList<String> newCommands = null;
 
-            Order bestOrder = grid.orders.get(0);
-            if (bestOrder.id == 239) {
-                log("order: " + bestOrder.id);
-            }
+            Order bestOrder = grid.orders.findBest();
 
             if (bestOrder != null) {
                 Warehouse bestWareHouse = warehouses.findBestWareHouse(bestOrder);
@@ -117,7 +94,7 @@ public class Calculator {
 
         turnCost += DistanceCalculator.distance(drone.X, drone.Y, warehouse.X, warehouse.Y);
 
-        for (OrderItem orderItem : order) {
+        for (OrderItem orderItem : order.items) {
             turnCost++;
             String loadCommand = drone.load(warehouse.id, orderItem);
             commands.add(loadCommand);
@@ -126,7 +103,7 @@ public class Calculator {
         // deliver                        
         turnCost += DistanceCalculator.distance(warehouse.X, warehouse.Y, order.X, order.Y);
 
-        for (OrderItem orderItem : order) {
+        for (OrderItem orderItem : order.items) {
             turnCost++;
             String deliverCmd = drone.deliver(order.id, orderItem);
             commands.add(deliverCmd);
@@ -179,7 +156,7 @@ public class Calculator {
 
         turnCost += DistanceCalculator.distance(drone.X, drone.Y, warehouse.X, warehouse.Y);
 
-        for (OrderItem orderItem : order) {
+        for (OrderItem orderItem : order.items) {
             turnCost++;
             //String loadCommand = (drone.id + " L " + warehouse.id + " " + orderItem.product.id + " " + orderItem.quantity);
             String loadCommand = drone.load(warehouse.id, orderItem);
@@ -189,7 +166,7 @@ public class Calculator {
         // deliver                        
         turnCost += DistanceCalculator.distance(warehouse.X, warehouse.Y, order.X, order.Y);
 
-        for (OrderItem orderItem : order) {
+        for (OrderItem orderItem : order.items) {
             turnCost++;
             //String deliverCmd = (drone.id + " D " + order.id + " " + orderItem.product.id + " " + orderItem.quantity);
             String deliverCmd = drone.deliver(order.id, orderItem);
@@ -218,7 +195,7 @@ public class Calculator {
     private ArrayList<String> workSingleOrderItem(Drone drone) {
 
         Order order = grid.orders.get(0);
-        OrderItem orderItem = order.get(0);
+        OrderItem orderItem = order.items.get(0);
 
         Warehouse warehouse = warehouses.findBestWareHouse(drone, orderItem.product);
 
@@ -242,7 +219,7 @@ public class Calculator {
             order.decrementItem(orderItem.product);
 
             // order complete
-            if (order.isEmpty()) {
+            if (order.items.isEmpty()) {
                 grid.orders.remove(order);
             }
 

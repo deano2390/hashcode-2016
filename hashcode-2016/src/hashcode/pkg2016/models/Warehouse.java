@@ -52,7 +52,7 @@ public class Warehouse extends ArrayList<OrderItem> {
               
         Iterator<OrderItem> iterator = iterator();
 
-        for (OrderItem orderItem : order) {
+        for (OrderItem orderItem : order.items) {
 
             boolean productIsInStock = false;
 
@@ -81,7 +81,7 @@ public class Warehouse extends ArrayList<OrderItem> {
 
         Iterator<OrderItem> iterator = iterator();
 
-        for (OrderItem orderItem : order) {
+        for (OrderItem orderItem : order.items) {
 
             while (iterator.hasNext()) {
                 OrderItem stockItem = iterator.next();
