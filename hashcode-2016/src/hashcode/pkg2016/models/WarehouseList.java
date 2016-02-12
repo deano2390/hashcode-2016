@@ -52,44 +52,4 @@ public class WarehouseList extends ArrayList<Warehouse> {
         return bestWarehouse;
 
     }
-
-    public Warehouse findBestWareHouse(Drone drone, Order order) {
-
-        Warehouse bestWarehouse = null;
-        int bestDistance = Integer.MAX_VALUE;
-        for (int warehouseID = 0; warehouseID < size(); warehouseID++) {
-            Warehouse warehouse = get(warehouseID);
-
-            if (warehouse.hasProducts(order)) {
-                int d = DistanceCalculator.distance(drone.X, drone.Y, warehouse.X, warehouse.Y);
-                if (d < bestDistance) {
-                    bestDistance = d;
-                    bestWarehouse = warehouse;
-                }
-            }
-        }
-
-        
-
-        return bestWarehouse;
-
-    }
-
-    public Warehouse findBestWareHouse(Drone drone, Product product) {
-        Warehouse bestWarehouse = null;
-        int bestDistance = Integer.MAX_VALUE;
-        for (int warehouseID = 0; warehouseID < size(); warehouseID++) {
-            Warehouse warehouse = get(warehouseID);
-            if (warehouse.hasProduct(product)) {
-                int d = DistanceCalculator.distance(drone.X, drone.Y, warehouse.X, warehouse.Y);
-                if (d < bestDistance) {
-                    bestDistance = d;
-                    bestWarehouse = warehouse;
-                }
-            }
-        }
-
-        return bestWarehouse;
-    }
-
 }
