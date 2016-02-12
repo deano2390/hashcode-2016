@@ -52,12 +52,12 @@ public class InputParser {
             grid.columns = Integer.parseInt(strValues[1]);
 
             int droneCount = Integer.parseInt(strValues[2]);
-            
+
             int maximumTime = Integer.parseInt(strValues[3]);
-            grid.maximumTime = maximumTime;
+            grid.MAX_TIME = maximumTime;
 
             int maxPayload = Integer.parseInt(strValues[4]);
-            grid.maxPayload = maxPayload;
+            grid.MAX_PAYLOAD = maxPayload;
 
             strLine = br.readLine();            //skip a line
             strLine = br.readLine();    // product weights        
@@ -80,8 +80,7 @@ public class InputParser {
             for (int warehouseID = 0; warehouseID < warehouseCount; warehouseID++) {
                 strLine = br.readLine();    // warehouse location
                 strValues = strLine.split(" ");
-                Warehouse warehouse = new Warehouse();
-                warehouse.id = warehouseID;
+                Warehouse warehouse = new Warehouse(warehouseID);                
                 warehouse.X = asInt(strValues[0]);
                 warehouse.Y = asInt(strValues[1]);
 
@@ -90,26 +89,20 @@ public class InputParser {
 
                 for (int productID = 0; productID < productTypeCount; productID++) {
                     int quantity = asInt(strValues[productID]);
-                    Product product = allProducts.get(productID);
-                    
-                    for (int i = 0; i < quantity; i++) {
-                        OrderItem orderItem = new OrderItem(product);
-                        warehouse.add(orderItem);
-                    }
-
+                    Product product = allProducts.get(productID);                    
+                    OrderItem orderItem = new OrderItem(product, quantity);
+                    warehouse.add(orderItem);
                 }
 
                 grid.warehouses.add(warehouse);
 
             }
-            
-            
+
             // now we know location of warehouse 0, create the drones
             Warehouse warehouse0 = grid.warehouses.get(0);
             for (int droneID = 0; droneID < droneCount; droneID++) {
                 grid.drones.add(new Drone(droneID, warehouse0.X, warehouse0.Y));
-            }            
-            
+            }
 
             strLine = br.readLine();    // order count
             int orderCount = asInt(strLine);
@@ -117,8 +110,7 @@ public class InputParser {
             for (int orderID = 0; orderID < orderCount; orderID++) {
                 strLine = br.readLine();    // order destination
                 strValues = strLine.split(" ");
-                Order order = new Order();
-                order.id = orderID;
+                Order order = new Order(orderID);                
                 order.X = asInt(strValues[0]);
                 order.Y = asInt(strValues[1]);
 
@@ -130,9 +122,8 @@ public class InputParser {
 
                 for (int itemNumber = 0; itemNumber < itemCount; itemNumber++) {
                     int productID = asInt(strValues[itemNumber]);
-                    Product product = allProducts.get(productID);
-                    OrderItem orderItem = new OrderItem(product);
-                    order.add(orderItem);
+                    Product product = allProducts.get(productID);                    
+                    order.addItem(product);
                 }
 
                 grid.orders.add(order);

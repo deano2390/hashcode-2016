@@ -10,11 +10,11 @@ public class Grid {
 
     public int rows;
     public int columns;
-    public int maximumTime;
-    public int maxPayload;
+    public static int MAX_TIME;
+    public static int MAX_PAYLOAD;
     
-    public ArrayList<Drone> drones = new ArrayList<>();
-    public ArrayList<Warehouse> warehouses = new ArrayList<>();
+    public DroneList drones = new DroneList();
+    public WarehouseList warehouses = new WarehouseList();
     public ArrayList<Order> orders = new ArrayList<>();
     public ArrayList<Product> products = new ArrayList<>();
 

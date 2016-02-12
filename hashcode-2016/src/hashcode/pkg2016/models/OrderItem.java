@@ -10,9 +10,11 @@ package hashcode.pkg2016.models;
  * @author deanwild
  */
 public class OrderItem {
-    public Product product;    
+    public Product product;   
+    public int quantity;
 
-    public OrderItem(Product product) {
+    public OrderItem(Product product, int quanitity) {
         this.product = product;
+        this.quantity = quanitity;
     }
 }

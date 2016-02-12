@@ -17,20 +17,49 @@ public class Order extends ArrayList<OrderItem> {
     public int X;
     public int Y;
     public int remainingWeight;
-   
-  
-    @Override
-    public boolean add(OrderItem item) {
-        remainingWeight += item.product.weight;
-        return super.add(item); 
+
+    public Order(int id) {
+        this.id = id;       
     }
     
-    public boolean remove(OrderItem item) {
-        remainingWeight -= item.product.weight;
-        return super.remove(item);
+            
+    public void addItem(Product product) {
+    
+        for (OrderItem orderItem : this) {
+            if(orderItem.product == product){
+                orderItem.quantity++;
+                remainingWeight += orderItem.product.weight;
+                return;
+            }
+        }
+        
+        // new item type, create it
+        OrderItem orderItem = new OrderItem(product, 1);
+        remainingWeight += orderItem.product.weight;
+        add(orderItem);        
     }
     
+    public void decrementItem(Product product){
+        
+        
+        for (OrderItem orderItem : this) {
+            if(orderItem.product == product){
+                orderItem.quantity--;
+                remainingWeight -= orderItem.product.weight;
+                
+                if(orderItem.quantity <= 0){
+                    remove(orderItem);
+                }
+                
+                return;
+            }
+        }
+    }
     
+    // the minimum number of turns needed to fulfill this order before even considering distance
+    public int turnOverhead(){        
+        return this.size() * 2;        
+    }
     
     
         
