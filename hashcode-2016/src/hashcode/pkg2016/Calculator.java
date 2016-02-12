@@ -31,8 +31,8 @@ public class Calculator {
 
             @Override
             public int compare(Order t, Order t1) {
-                int len1 = t.items.size();
-                int len2 = t.items.size();
+                int len1 = t.size();
+                int len2 = t.size();
                 return len1 < len2 ? -1 : len1 == len2 ? 0 : 1;
             }
         });
@@ -62,18 +62,18 @@ public class Calculator {
     private void workDrone(Drone drone, List<String> commands) {
         
         Order order = grid.orders.get(0);
-        OrderItem item = order.items.get(0);
+        OrderItem item = order.get(0);
         
         Warehouse warehouse = findBestWareHouse(drone, item.product);   
         
                 
         // update warehouse stock level
-        warehouse.removeItem(item.product);
+        warehouse.decrementProductStock(item.product);
         
-        order.items.remove(item);
+        order.remove(item);
         
         // order complete
-        if (order.items.isEmpty()) {
+        if (order.isEmpty()) {
             grid.orders.remove(order);
         }
 
@@ -93,9 +93,7 @@ public class Calculator {
             commands.add(load);
             commands.add(deliver);
         }
-        
-        return;
-
+                
     }
 
     private Warehouse findBestWareHouse(Drone drone, Product product) {

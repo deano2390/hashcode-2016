@@ -132,7 +132,7 @@ public class InputParser {
                     int productID = asInt(strValues[itemNumber]);
                     Product product = allProducts.get(productID);
                     OrderItem orderItem = new OrderItem(product);
-                    order.items.add(orderItem);
+                    order.add(orderItem);
                 }
 
                 grid.orders.add(order);

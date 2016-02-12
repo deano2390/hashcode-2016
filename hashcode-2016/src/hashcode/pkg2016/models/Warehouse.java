@@ -30,7 +30,7 @@ public boolean hasProduct(Product product){
     return false;
 }
 
-    public void removeItem(Product product) {
+    public void decrementProductStock(Product product) {
         
         Iterator<OrderItem> iterator = iterator();
         

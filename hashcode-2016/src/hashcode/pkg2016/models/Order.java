@@ -11,10 +11,28 @@ import java.util.ArrayList;
  *
  * @author deanwild
  */
-public class Order {
+public class Order extends ArrayList<OrderItem> {
+
     public int id;
     public int X;
     public int Y;
+    public int remainingWeight;
+   
+  
+    @Override
+    public boolean add(OrderItem item) {
+        remainingWeight += item.product.weight;
+        return super.add(item); 
+    }
     
-    public ArrayList<OrderItem> items = new ArrayList<>();
+    public boolean remove(OrderItem item) {
+        remainingWeight -= item.product.weight;
+        return super.remove(item);
+    }
+    
+    
+    
+    
+        
+    
 }
