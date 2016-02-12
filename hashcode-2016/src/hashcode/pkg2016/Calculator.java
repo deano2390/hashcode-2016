@@ -37,7 +37,7 @@ public class Calculator {
             }
         });
 
-        outer:
+        
         for (int t = 0; t < grid.turns; t++) {
 
             if (grid.orders.isEmpty()) {
@@ -50,10 +50,8 @@ public class Calculator {
                     continue;
                 }
                 
-                boolean didWork = workDrone(drone, commands);
-                if(!didWork){
-                    break outer;
-                }
+                workDrone(drone, commands);
+               
             }
 
         }
@@ -61,17 +59,14 @@ public class Calculator {
         return commands.toArray(new String[commands.size()]);
     }
 
-    private boolean workDrone(Drone drone, List<String> commands) {
+    private void workDrone(Drone drone, List<String> commands) {
         
         Order order = grid.orders.get(0);
         OrderItem item = order.items.get(0);
         
         Warehouse warehouse = findBestWareHouse(drone, item.product);   
         
-        if(warehouse == null){
-            return false;
-        }
-        
+                
         // update warehouse stock level
         warehouse.removeItem(item.product);
         
@@ -99,7 +94,7 @@ public class Calculator {
             commands.add(deliver);
         }
         
-        return true;
+        return;
 
     }
 
@@ -118,9 +113,7 @@ public class Calculator {
         }
 
         return bestWarehouse;
-
-//warehouse.products.put(product, warehouse.products.get(product) - 1);
-        //return index < 0 ? null : grid.warehouses.get(index);
+     
     }
 
     private int distance(int x1, int y1, int x2, int y2) {
