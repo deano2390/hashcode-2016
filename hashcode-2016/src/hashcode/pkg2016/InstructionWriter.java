@@ -26,7 +26,7 @@ public class InstructionWriter {
         File folder = new File(outputPath);
         folder.mkdirs();
         
-        File file = new File(outputPath + "/" + fileName +  ".out");
+        File file = new File(outputPath + "/" + fileName +  ".txt");
         
         try (PrintStream out = new PrintStream(new FileOutputStream(file))) {
             
